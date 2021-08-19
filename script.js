@@ -16,15 +16,11 @@ console.log(map(["Bilbo", "Gandalf", "Nazgul"], a => a[1] === "a"));
 //SOME START
 function some(arr, predicate) {
     for (let i = 0; i < arr.length; i++) {
-        if (arr[i] !== predicate()) continue;
-        else {
-            return true;
-            break;
-        }
+        if (predicate(arr[i])) return true;
     }
     return false;
 }
-console.log(some(["Bilbo", "Gandalf", "Nazgul"], () => "Bilbo"));
+console.log("SOME" + some(["Bilbo", "Gandalf", "Nazgul"], (a) => a == "Nazgul"));
 //SOME END
 
 //MAP EVERY
