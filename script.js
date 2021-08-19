@@ -20,7 +20,7 @@ function some(arr, predicate) {
     }
     return false;
 }
-console.log("SOME" + some(["Bilbo", "Gandalf", "Nazgul"], (a) => a == "Nazgul"));
+console.log(some(["Bilbo", "Gandalf", "Nazgul"], (a) => a == "Nazgul"));
 //SOME END
 
 //MAP EVERY
