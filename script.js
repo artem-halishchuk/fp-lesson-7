@@ -26,12 +26,11 @@ console.log(some(["Bilbo", "Gandalf", "Nazgul"], (a) => a == "Nazgul"));
 //MAP EVERY
 function every(arr, predicate) {
     for (let i = 0; i < arr.length; i++) {
-        if (arr[i] == predicate()) continue;
-        else return false;
+        if (!predicate(arr[i])) return false;
     }
     return true;
 }
-console.log(every(["11", "11", "10"], () => "11"));
+console.log(every(["11", "11", "10"], (a) => a == "11"));
 //END EVERY
 
 //MAP REDUSE
