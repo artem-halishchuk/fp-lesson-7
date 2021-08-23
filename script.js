@@ -1,6 +1,6 @@
 //---------------------------task 1-----------------------------------------------
 let words = ["Bilbo", "Gandalf", "Nazgul"]
-let numbers = [1, 2, 3, 4, 5];
+let numbers = [1, 2, 3, 4];
 
 //MAP START
 function map(arr, mapper) {
@@ -23,7 +23,7 @@ function some(arr, predicate) {
 console.log(some(["Bilbo", "Gandalf", "Nazgul"], (a) => a == "Nazgul"));
 //SOME END
 
-//MAP EVERY
+//EVERY
 function every(arr, predicate) {
     for (let i = 0; i < arr.length; i++) {
         if (!predicate(arr[i])) return false;
@@ -31,147 +31,83 @@ function every(arr, predicate) {
     return true;
 }
 console.log(every(["11", "11", "10"], (a) => a == "11"));
-//END EVERY
+//EVERY END
 
-//MAP REDUSE
+//REDUSE START
 function reduce (arr, predicate, startValue) {
-    let result = startValue + arr[0] ;
-    for (let i = 1; i < arr.length; i++) {
+    let result = startValue + arr[0];// = startValue + arr[0] ;
+    for (let i = 0; i < arr.length; i++) {
         result = predicate(arr[i], result);
     }
     return result;
 }
-console.log(reduce(numbers, (sum, current) => current + sum, 10));
+console.log(reduce([1, 2, 3, 4], (a, current) => current + a, "A"));
 console.log(reduce(words, (sum, current) => current + sum, "plus_"));
-//END REDUSE
+//REDUSE END
 
 
 
 
 //------------------------task 2------------------------------------------
-let user0 = "Василий Васильевич Иванов 380958326595";
-let user1 = "Петр Васильевич Петров 380655626491";
-let user2 = "Николай Николаевич Столяров 380654126881";
-let user3 = "Адольф Спиридонович Шмыг 380993334181";
+let user0 = {
+    firstName: "Василий",
+    lastName: "Иванов",
+    parentsName: "Васильевич",
+    phone: "380958326595",
+};
+let user1 = {
+    firstName: "Петр",
+    lastName: "Петров",
+    parentsName: "Васильевич",
+    phone: "380655626491",
+};
+let user2 = {
+    firstName: "Николай",
+    lastName: "Столяров",
+    parentsName: "Николаевич",
+    phone: "380654126881",
+};
+let user3 = {
+    firstName: "Адольф",
+    lastName: "Шмыг",
+    parentsName: "Спиридонович",
+    phone: "380993334181",
+};
 let users = [user0, user1, user2, user3];
 
-//START SUBTASK A
-function matchesFirsLetterName (users) {
-    let result = [];
-    let k = 0;
-    for (let i = 0; i < users.length; i++) {
-        let target = " ";
-        let pos = 0;
-        let userTemp = [];
-        for (let j = 0; ; j++) {
-            let posTemp = pos;
-            let found = users[i].indexOf(target, pos);
-            if (found !== -1) userTemp[j] = users[i].slice(posTemp , found);
-            else {
-                userTemp[j] = users[i].slice(posTemp);
-                break;
-            }
-            pos = found + 1;
-
-        }
-        let searchLetter = userTemp[0].charAt(0);
-        if (userTemp[1].indexOf(searchLetter, 0) === 0) {
-            result[k] = userTemp;
-            k++;
-        }
-    }
+//START A
+function matchesFirsLetterName(inValue) {
+    let result = inValue.filter(item => item.firstName[0] === item.parentsName[0]);
     return result;
 }
 console.log(matchesFirsLetterName(users));
-//END SUBTASK A
+//END A
 
-
-
-//START SUBTASK B
-function surnameIncials (users) {
-    let result = [];
-    for (let i = 0; i < users.length; i++) {
-        let target = " ";
-        let pos = 0;
-        let userTemp = [];
-        for (let j = 0; ; j++) {
-            let posTemp = pos;
-            let found = users[i].indexOf(target, pos);
-            if (found !== -1) userTemp[j] = users[i].slice(posTemp , found);
-            else {
-                userTemp[j] = users[i].slice(posTemp);
-                break;
-            }
-            pos = found + 1;
-        }
-        result[i] = userTemp[2] + " " + userTemp[0].charAt(0) + "." + userTemp[1].charAt(0) + ".";
-
-    }
+//START B
+function transformLastnameInitials(inValue) {
+    let result = inValue.map(item => [item.lastName, item.firstName[0], item.parentsName[0]].join(" "));
+    //let result = inValue.map(item => item.lastName+" "+item.firstName[0]+"."+item.parentsName[0]+".");
     return result;
 }
-console.log(surnameIncials(users));
-//END SUBTASK B
+console.log(transformLastnameInitials(users));
+//END B
 
-
-//START SUBTASK С
-function searchContactByPhone (users, numberPhoneSearch) {
-    let result = [];
-    let k = 0;
-    for (let i = 0; i < users.length; i++) {
-        let target = " ";
-        let pos = 0;
-        let userTemp = [];
-        for (let j = 0; ; j++) {
-            let posTemp = pos;
-            let found = users[i].indexOf(target, pos);
-            if (found !== -1) userTemp[j] = users[i].slice(posTemp , found);
-            else {
-                userTemp[j] = users[i].slice(posTemp);
-                break;
-            }
-            pos = found + 1;
-        }
-        if (String(userTemp[3]).indexOf(String(numberPhoneSearch)) !== -1) {
-            result[k] = userTemp[0] + " " + userTemp[3];
-            k++
-        }
-    }
+//START C
+function searchPhone(inValue, phone) {
+    let result = inValue.filter(item => item.phone.indexOf(phone) === 0)
+                        .map(item => [item.lastName, item.phone].join(" - "));
     return result;
 }
+console.log(searchPhone(users, 38065));
+//END C
 
-let numberPhoneSearch = parseInt(prompt("Введите номер для поиска", 380));
-
-console.log(searchContactByPhone(users, numberPhoneSearch));
-//END SUBTASK С
-
-
-//START SUBTASK D
-function searchPhoneTrue (users, numberPhoneSearch) {
-    for (let i = 0; i < users.length; i++) {
-        let target = " ";
-        let pos = 0;
-        let userTemp = [];
-        for (let j = 0; ; j++) {
-            let posTemp = pos;
-            let found = users[i].indexOf(target, pos);
-            if (found !== -1) userTemp[j] = users[i].slice(posTemp , found);
-            else {
-                userTemp[j] = users[i].slice(posTemp);
-                break;
-            }
-            pos = found + 1;
-        }
-        if (userTemp[3] == numberPhoneSearch) return true;
-    }
-    return false;
+//START D
+function searchPhoneTrue(inValue, phone) {
+    let result = inValue.some(item => item.phone == phone);
+    return result;
 }
-
-let numberPhoneSearchTrue = parseInt(prompt("Введите номер для поиска", 380654126881));
-
-console.log(searchPhoneTrue(users, numberPhoneSearchTrue));
-//END SUBTASK D
-
-
+console.log(searchPhoneTrue(users, 380993334181));
+//END D
 
 
 
